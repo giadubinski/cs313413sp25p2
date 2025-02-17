@@ -18,16 +18,17 @@ public class TestPerformance {
 
   // TODO (optional) refactor to DRY
   // which of the two lists performs better as the size increases?
-  private final int SIZE = 10;
+  private int SIZE;
 
   // TODO choose this value in such a way that you can observe an actual effect
   // for increasing problem sizes
-  private final int REPS = 1000000;
+  private int REPS;
 
   private List<Integer> arrayList;
 
   private List<Integer> linkedList;
 
+  public TestPerformance() {}
 
   @Before
   public void setUp() throws Exception {
@@ -90,5 +91,26 @@ public class TestPerformance {
         sum += arrayList.get(r % SIZE);
       }
     });
+  }
+
+  private void runTest(int size, int reps) throws Exception {
+    this.SIZE = size;
+    this.REPS = reps;
+    setUp();
+    testArrayListAddRemove();
+    testLinkedListAddRemove();
+    testArrayListAccess();
+    testLinkedListAccess();
+    tearDown();
+  }
+
+  public static void main(String[] args) throws Exception {
+    TestPerformance test = new TestPerformance();
+    // Test different configurations
+    test.runTest(10, 1000000);
+    test.runTest(100, 500000);
+    test.runTest(1000, 100000);
+    test.runTest(10000, 10000);
+    test.runTest(100000, 1000);
   }
 }
