@@ -12,8 +12,10 @@ public class TestPerformance {
   // TODO run test and record running times for SIZE = 10, 100, 1000, 10000, ...
   // (choose in conjunction with REPS below up to an upper limit where the clock
   // running time is in the tens of seconds)
+
   // TODO Question: What conclusions can you draw about the performance of LinkedList vs. ArrayList when
   // comparing their running times for AddRemove vs. Access? Record those running times in README.txt!
+
   // TODO (optional) refactor to DRY
   // which of the two lists performs better as the size increases?
   private final int SIZE = 10;
@@ -25,6 +27,7 @@ public class TestPerformance {
   private List<Integer> arrayList;
 
   private List<Integer> linkedList;
+
 
   @Before
   public void setUp() throws Exception {
@@ -42,35 +45,50 @@ public class TestPerformance {
     linkedList = null;
   }
 
+  private void durTime(String testName, Runnable test) {
+    long start = System.nanoTime();
+    test.run();
+    long duration = System.nanoTime() - start;
+    System.out.println(testName + " took " + duration / 1_000_000.0 + " ms");
+  }
+
   @Test
   public void testLinkedListAddRemove() {
-    for (var r = 0; r < REPS; r++) {
-      linkedList.add(0, 77);
-      linkedList.remove(0);
-    }
+    durTime("LinkedList Add/Remove", () -> {
+      for (var r = 0; r < REPS; r++) {
+        linkedList.add(0, 77);
+        linkedList.remove(0);
+      }
+    });
   }
 
   @Test
   public void testArrayListAddRemove() {
-    for (var r = 0; r < REPS; r++) {
-      arrayList.add(0, 77);
-      arrayList.remove(0);
-    }
+    durTime("ArrayList Add/Remove", () -> {
+      for (var r = 0; r < REPS; r++) {
+        arrayList.add(0, 77);
+        arrayList.remove(0);
+      }
+    });
   }
 
   @Test
   public void testLinkedListAccess() {
-    var sum = 0L;
-    for (var r = 0; r < REPS; r++) {
-      sum += linkedList.get(r % SIZE);
-    }
+    durTime("LinkedList Access", () -> {
+      var sum = 0L;
+      for (var r = 0; r < REPS; r++) {
+        sum += linkedList.get(r % SIZE);
+      }
+    });
   }
 
   @Test
   public void testArrayListAccess() {
-    var sum = 0L;
-    for (var r = 0; r < REPS; r++) {
-      sum += arrayList.get(r % SIZE);
-    }
+    durTime("ArrayList Access", () -> {
+      var sum = 0L;
+      for (var r = 0; r < REPS; r++) {
+        sum += arrayList.get(r % SIZE);
+      }
+    });
   }
 }
