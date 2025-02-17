@@ -21,9 +21,6 @@ public class TestIterator {
   public void setUp() throws Exception {
     list = new ArrayList<Integer>();
     // TODO Question: Also try with a LinkedList - does it make any difference?
-    /*
-      (Write a linkedlist function)
-     */
   }
 
   @After
